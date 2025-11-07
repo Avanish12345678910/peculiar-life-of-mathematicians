@@ -177,22 +177,36 @@ nav {
     line-height: 1.6;
 }
 
-/* Contact Section */
-.contact {
+/* Add Section (formerly Contact) */
+.add {
     padding: 5rem 0;
-    background: var(--white);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-.contact h2 {
+.add h2 {
     font-size: 2.5rem;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     color: var(--primary-color);
 }
 
+.add-description {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #contact-form {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
@@ -202,36 +216,50 @@ nav {
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 1rem;
-    border: 2px solid var(--light-bg);
-    border-radius: 5px;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     font-size: 1rem;
     font-family: inherit;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    background: #fafafa;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: var(--secondary-color);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
 }
 
 .submit-button {
     width: 100%;
-    padding: 1rem 2rem;
-    background: var(--secondary-color);
+    padding: 1.25rem 2rem;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #2980b9 100%);
     color: var(--white);
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
 .submit-button:hover {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, #2980b9 0%, var(--primary-color) 100%);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+.submit-button:active {
+    transform: translateY(0);
 }
 
 /* Footer */
@@ -255,9 +283,23 @@ footer {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    /* Tablet and smaller laptops */
+    .add h2 {
+        font-size: 2.2rem;
+    }
+    
+    #contact-form {
+        max-width: 600px;
+        padding: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
+    /* Tablets */
     .nav-links {
         gap: 1rem;
+        font-size: 0.9rem;
     }
 
     .hero-content h2 {
@@ -270,22 +312,89 @@ footer {
 
     .about h2,
     .mathematicians h2,
-    .contact h2 {
+    .add h2 {
         font-size: 2rem;
     }
 
     .mathematician-grid {
         grid-template-columns: 1fr;
     }
+
+    .add {
+        padding: 3rem 0;
+    }
+
+    #contact-form {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+
+    .add-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
 }
 
 @media (max-width: 480px) {
+    /* Mobile phones */
     .nav-links {
         flex-direction: column;
         gap: 0.5rem;
+        font-size: 0.85rem;
     }
 
     .logo h1 {
         font-size: 1.3rem;
+    }
+
+    .add h2 {
+        font-size: 1.75rem;
+    }
+
+    .add-description {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+
+    #contact-form {
+        padding: 1.25rem;
+        border-radius: 10px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+    }
+
+    .submit-button {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    /* Small mobile phones */
+    .add {
+        padding: 2rem 0;
+    }
+
+    #contact-form {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+
+    .add h2 {
+        font-size: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.75rem;
+        font-size: 0.9rem;
     }
 }
