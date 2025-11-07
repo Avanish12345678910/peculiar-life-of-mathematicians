@@ -12,3 +12,6 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Large source files
+Discrete-Mathematics-and-Its-Applications-8th-Edition.txt
