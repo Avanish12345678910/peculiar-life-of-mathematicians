@@ -6,6 +6,34 @@
     <meta name="description" content="Exploring the peculiar lives of famous mathematicians">
     <title>Peculiar Life of Mathematicians</title>
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvXxvxvxvxvxvxvxvxvxvxvxvxvxv",
+            authDomain: "mathematicians-db.firebaseapp.com",
+            projectId: "mathematicians-db",
+            storageBucket: "mathematicians-db.appspot.com",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abcdefghijklmnop"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        // Make available globally
+        window.firebaseDb = db;
+        window.firebaseCollection = collection;
+        window.firebaseAddDoc = addDoc;
+        window.firebaseGetDocs = getDocs;
+        window.firebaseQuery = query;
+        window.firebaseOrderBy = orderBy;
+    </script>
 </head>
 <body>
     <header>

@@ -12,25 +12,101 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Form submission handler
+// Load user-submitted mathematicians from Firebase
+async function loadUserMathematicians() {
+    try {
+        const q = window.firebaseQuery(
+            window.firebaseCollection(window.firebaseDb, 'mathematicians'),
+            window.firebaseOrderBy('timestamp', 'desc')
+        );
+        const querySnapshot = await window.firebaseGetDocs(q);
+        
+        const grid = document.querySelector('.mathematician-grid');
+        
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const card = document.createElement('div');
+            card.className = 'mathematician-card user-submitted';
+            card.innerHTML = `
+                <h3>${escapeHtml(data.name)}</h3>
+                <p>${escapeHtml(data.description)}</p>
+                <small style="display: block; margin-top: 10px; color: #666; font-style: italic;">
+                    Submitted by community
+                </small>
+            `;
+            grid.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error loading mathematicians:', error);
+    }
+}
+
+// Escape HTML to prevent XSS attacks
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Form submission
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
+        const description = document.getElementById('message').value;
+        const submitButton = contactForm.querySelector('button[type="submit"]');
         
-        // Simple validation
-        if (name && email && message) {
-            alert('Thank you for your message! We will get back to you soon.');
+        // Disable button and show loading state
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
+        
+        try {
+            // Add to Firebase
+            await window.firebaseAddDoc(
+                window.firebaseCollection(window.firebaseDb, 'mathematicians'),
+                {
+                    name: name,
+                    description: description,
+                    timestamp: new Date().toISOString()
+                }
+            );
+            
+            // Create and add the card immediately to the page
+            const grid = document.querySelector('.mathematician-grid');
+            const card = document.createElement('div');
+            card.className = 'mathematician-card user-submitted';
+            card.innerHTML = `
+                <h3>${escapeHtml(name)}</h3>
+                <p>${escapeHtml(description)}</p>
+                <small style="display: block; margin-top: 10px; color: #666; font-style: italic;">
+                    Submitted by community
+                </small>
+            `;
+            grid.appendChild(card);
+            
+            // Show success message
+            alert('Thank you! The mathematician has been added successfully!');
+            
+            // Reset form
             contactForm.reset();
-        } else {
-            alert('Please fill in all fields.');
+        } catch (error) {
+            console.error('Error adding mathematician:', error);
+            alert('Sorry, there was an error. Please try again later.');
+        } finally {
+            // Re-enable button
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Mathematician';
         }
     });
 }
+
+// Load user-submitted mathematicians when page loads
+window.addEventListener('load', () => {
+    // Wait a bit for Firebase to initialize
+    setTimeout(loadUserMathematicians, 1000);
+});
 
 // Add scroll effect to header
 let lastScroll = 0;
